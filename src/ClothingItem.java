@@ -1,38 +1,62 @@
 public class ClothingItem {
 
-    // Киімнің атауы
     private String name;
-
-    // Киімнің өлшемі (S, M, L)
     private String size;
-
-    // Киімнің бағасы
     private double price;
+    private String category;
 
-    // Конструктор – объект жасағанда мән береміз
-    public ClothingItem(String name, String size, double price) {
+    public ClothingItem(String name, String size, double price, String category) {
         this.name = name;
         this.size = size;
         this.price = price;
+        this.category = category;
     }
 
-    // Жеңілдік беру
-    public void applyDiscount(double percent) {
-        price = price - (price * percent / 100);
+    public String getName() {
+        return name;
     }
-    //бағасын есептеу
+
+    public String getSize() {
+        return size;
+    }
+
     public double getPrice() {
         return price;
     }
 
-    // Экранға шығару
+    public String getCategory() {
+        return category;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void applyDiscount(double percent) {
+        price = price - (price * percent / 100);
+    }
+
+    public boolean isExpensive() {
+        return price > 15000;
+    }
+
+
     public String toString() {
         return "Name: " + name +
                 ", Size: " + size +
-                ", Price: " + price;
+                ", Price: " + price +
+                ", Category: " + category;
     }
 }
-
-
-
-

@@ -4,27 +4,29 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+
         System.out.println("=== WEEK 4 TEST ===");
 
-        ClothingItem shirt = new Shirt(
+        ClothingItem shirtTest = new Shirt(
                 "Winter Shirt",
                 "L",
                 25000,
                 "Clothes",
-                true
+                true,
+                "Cotton"
         );
 
-        ClothingItem jacket = new Jacket(
+        ClothingItem jacketTest = new Jacket(
                 "Winter Jacket",
                 "XL",
                 40000,
                 "Outerwear",
-                true
+                true,
+                "Winter"
         );
 
-        System.out.println(shirt);
-        System.out.println(jacket);
-
+        System.out.println(shirtTest);
+        System.out.println(jacketTest);
 
         ArrayList<ClothingItem> items = new ArrayList<>();
         ArrayList<Customer> customers = new ArrayList<>();
@@ -49,7 +51,7 @@ public class Main {
             int choice = scanner.nextInt();
             scanner.nextLine();
 
-            // 1. Add item
+            // ===== 1. Add item =====
             if (choice == 1) {
 
                 System.out.println("Choose item type:");
@@ -61,44 +63,32 @@ public class Main {
 
                 System.out.print("Enter name: ");
                 String name = scanner.nextLine();
-                if (name.trim().isEmpty()) {
-                    System.out.println("Name cannot be empty");
-                    continue;
-                }
 
                 System.out.print("Enter size: ");
                 String size = scanner.nextLine();
-                if (size.trim().isEmpty()) {
-                    System.out.println("Size cannot be empty");
-                    continue;
-                }
 
                 System.out.print("Enter price: ");
                 double price = scanner.nextDouble();
                 scanner.nextLine();
-                if (price <= 0) {
-                    System.out.println("Price must be greater than 0");
-                    continue;
-                }
 
                 System.out.print("Enter category: ");
                 String category = scanner.nextLine();
-                if (category.trim().isEmpty()) {
-                    System.out.println("Category cannot be empty");
-                    continue;
-                }
 
                 if (type == 1) {
                     System.out.print("Long sleeve (true/false): ");
                     boolean longSleeve = scanner.nextBoolean();
                     scanner.nextLine();
 
+                    System.out.print("Enter material: ");
+                    String material = scanner.nextLine();
+
                     ClothingItem item = new Shirt(
-                            name.trim(),
-                            size.trim(),
+                            name,
+                            size,
                             price,
-                            category.trim(),
-                            longSleeve
+                            category,
+                            longSleeve,
+                            material
                     );
                     items.add(item);
                 }
@@ -108,12 +98,16 @@ public class Main {
                     boolean waterproof = scanner.nextBoolean();
                     scanner.nextLine();
 
+                    System.out.print("Enter season: ");
+                    String season = scanner.nextLine();
+
                     ClothingItem item = new Jacket(
-                            name.trim(),
-                            size.trim(),
+                            name,
+                            size,
                             price,
-                            category.trim(),
-                            waterproof
+                            category,
+                            waterproof,
+                            season
                     );
                     items.add(item);
                 }
@@ -126,7 +120,7 @@ public class Main {
                 System.out.println("Item added successfully");
             }
 
-            // 2. View items
+            // ===== 2. View items =====
             else if (choice == 2) {
 
                 if (items.isEmpty()) {
@@ -135,45 +129,36 @@ public class Main {
                     System.out.println("Clothing items:");
                     for (ClothingItem item : items) {
                         System.out.println(item);
+
+                        if (item instanceof Shirt) {
+                            System.out.println("Item type: Shirt");
+                        }
+                        else if (item instanceof Jacket) {
+                            System.out.println("Item type: Jacket");
+                        }
                     }
                 }
             }
 
-            // 3. Add customer
+            // ===== 3. Add customer =====
             else if (choice == 3) {
 
                 System.out.print("Enter name: ");
                 String name = scanner.nextLine();
-                if (name.trim().isEmpty()) {
-                    System.out.println("Name cannot be empty");
-                    continue;
-                }
 
                 System.out.print("Enter phone: ");
                 String phone = scanner.nextLine();
-                if (phone.trim().isEmpty()) {
-                    System.out.println("Phone cannot be empty");
-                    continue;
-                }
 
                 System.out.print("Enter email: ");
                 String email = scanner.nextLine();
-                if (email.trim().isEmpty()) {
-                    System.out.println("Email cannot be empty");
-                    continue;
-                }
 
-                Customer customer = new Customer(
-                        name.trim(),
-                        phone.trim(),
-                        email.trim()
-                );
+                Customer customer = new Customer(name, phone, email);
                 customers.add(customer);
 
                 System.out.println("Customer added successfully");
             }
 
-            // 4. View customers
+            // ===== 4. View customers =====
             else if (choice == 4) {
 
                 if (customers.isEmpty()) {
@@ -186,7 +171,7 @@ public class Main {
                 }
             }
 
-            // 5. Add order
+            // ===== 5. Add order =====
             else if (choice == 5) {
 
                 if (items.isEmpty()) {
@@ -198,15 +183,11 @@ public class Main {
 
                     System.out.print("Enter order date: ");
                     String orderDate = scanner.nextLine();
-                    if (orderDate.trim().isEmpty()) {
-                        System.out.println("Order date cannot be empty");
-                        continue;
-                    }
 
                     Order order = new Order(
                             orderId,
                             totalPrice,
-                            orderDate.trim(),
+                            orderDate,
                             "Created"
                     );
                     orders.add(order);
@@ -215,7 +196,7 @@ public class Main {
                 }
             }
 
-            // 6. View orders
+            // ===== 6. View orders =====
             else if (choice == 6) {
 
                 if (orders.isEmpty()) {
@@ -228,7 +209,7 @@ public class Main {
                 }
             }
 
-            // Exit
+            // ===== Exit =====
             else if (choice == 0) {
                 System.out.println("Program ended");
                 running = false;
@@ -240,4 +221,3 @@ public class Main {
         }
     }
 }
-

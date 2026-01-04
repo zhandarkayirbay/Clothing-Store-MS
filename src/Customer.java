@@ -6,12 +6,13 @@ public class Customer {
     private String email;
 
     public Customer(String name, String phone, String email) {
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
+        setName(name);
+        setPhone(phone);
+        setEmail(email);
         this.points = 0;
     }
 
+    // ===== Getters =====
     public String getName() {
         return name;
     }
@@ -28,31 +29,48 @@ public class Customer {
         return email;
     }
 
+    // ===== Setters with validation =====
     public void setName(String name) {
-        this.name = name;
+        if (name == null || name.trim().isEmpty()) {
+            return;
+        }
+        this.name = name.trim();
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        if (phone == null || phone.trim().isEmpty()) {
+            return;
+        }
+        this.phone = phone.trim();
     }
 
     public void setPoints(int points) {
+        if (points < 0) {
+            return;
+        }
         this.points = points;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if (email == null || email.trim().isEmpty()) {
+            return;
+        }
+        this.email = email.trim();
     }
 
+    // ===== Additional methods =====
     public void addPoints(int amount) {
-        points += amount;
+        if (amount > 0) {
+            points += amount;
+        }
     }
 
     public boolean hasEnoughPoints(int amount) {
         return points >= amount;
     }
 
-
+    // ===== toString =====
+    @Override
     public String toString() {
         return "Customer name: " + name +
                 ", Phone: " + phone +

@@ -6,13 +6,12 @@ public class ClothingItem {
     private String category;
 
     public ClothingItem(String name, String size, double price, String category) {
-        setName(name);
-        setSize(size);
-        setPrice(price);
-        setCategory(category);
+        this.name = name;
+        this.size = size;
+        this.price = price;
+        this.category = category;
     }
 
-    // ===== Getters =====
     public String getName() {
         return name;
     }
@@ -29,47 +28,38 @@ public class ClothingItem {
         return category;
     }
 
-    // ===== Setters with validation =====
     public void setName(String name) {
-        if (name == null || name.trim().isEmpty()) {
-            return;
+        if (!name.trim().isEmpty()) {
+            this.name = name;
         }
-        this.name = name.trim();
     }
 
     public void setSize(String size) {
-        if (size == null || size.trim().isEmpty()) {
-            return;
+        if (!size.trim().isEmpty()) {
+            this.size = size;
         }
-        this.size = size.trim();
     }
 
     public void setPrice(double price) {
-        if (price <= 0) {
-            return;
+        if (price > 0) {
+            this.price = price;
         }
-        this.price = price;
     }
 
     public void setCategory(String category) {
-        if (category == null || category.trim().isEmpty()) {
-            return;
+        if (!category.trim().isEmpty()) {
+            this.category = category;
         }
-        this.category = category.trim();
     }
 
-    // ===== Additional methods =====
     public void applyDiscount(double percent) {
-        if (percent > 0 && percent <= 100) {
-            price = price - (price * percent / 100);
-        }
+        price = price - (price * percent / 100);
     }
 
     public boolean isExpensive() {
         return price > 15000;
     }
 
-    // ===== toString =====
     @Override
     public String toString() {
         return "Name: " + name +

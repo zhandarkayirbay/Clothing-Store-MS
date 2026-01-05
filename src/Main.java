@@ -7,27 +7,6 @@ public class Main {
 
         System.out.println("=== WEEK 4 TEST ===");
 
-        ClothingItem shirtTest = new Shirt(
-                "Winter Shirt",
-                "L",
-                25000,
-                "Clothes",
-                true,
-                "Cotton"
-        );
-
-        ClothingItem jacketTest = new Jacket(
-                "Winter Jacket",
-                "XL",
-                40000,
-                "Outerwear",
-                true,
-                "Winter"
-        );
-
-        System.out.println(shirtTest);
-        System.out.println(jacketTest);
-
         ArrayList<ClothingItem> items = new ArrayList<>();
         ArrayList<Customer> customers = new ArrayList<>();
         ArrayList<Order> orders = new ArrayList<>();
@@ -37,8 +16,7 @@ public class Main {
 
         while (running) {
 
-            System.out.println();
-            System.out.println("MENU");
+            System.out.println("\nMENU");
             System.out.println("1. Add item");
             System.out.println("2. View items");
             System.out.println("3. Add customer");
@@ -51,10 +29,9 @@ public class Main {
             int choice = scanner.nextInt();
             scanner.nextLine();
 
-            // ===== 1. Add item =====
+            // ===== ADD ITEM =====
             if (choice == 1) {
 
-                System.out.println("Choose item type:");
                 System.out.println("1. Shirt");
                 System.out.println("2. Jacket");
                 System.out.print("Type: ");
@@ -63,16 +40,32 @@ public class Main {
 
                 System.out.print("Enter name: ");
                 String name = scanner.nextLine();
+                if (name.trim().isEmpty()) {
+                    System.out.println("Name cannot be empty");
+                    continue;
+                }
 
                 System.out.print("Enter size: ");
                 String size = scanner.nextLine();
+                if (size.trim().isEmpty()) {
+                    System.out.println("Size cannot be empty");
+                    continue;
+                }
 
                 System.out.print("Enter price: ");
                 double price = scanner.nextDouble();
                 scanner.nextLine();
+                if (price <= 0) {
+                    System.out.println("Price must be greater than 0");
+                    continue;
+                }
 
                 System.out.print("Enter category: ");
                 String category = scanner.nextLine();
+                if (category.trim().isEmpty()) {
+                    System.out.println("Category cannot be empty");
+                    continue;
+                }
 
                 if (type == 1) {
                     System.out.print("Long sleeve (true/false): ");
@@ -81,16 +74,12 @@ public class Main {
 
                     System.out.print("Enter material: ");
                     String material = scanner.nextLine();
+                    if (material.trim().isEmpty()) {
+                        System.out.println("Material cannot be empty");
+                        continue;
+                    }
 
-                    ClothingItem item = new Shirt(
-                            name,
-                            size,
-                            price,
-                            category,
-                            longSleeve,
-                            material
-                    );
-                    items.add(item);
+                    items.add(new Shirt(name, size, price, category, longSleeve, material));
                 }
 
                 else if (type == 2) {
@@ -100,123 +89,85 @@ public class Main {
 
                     System.out.print("Enter season: ");
                     String season = scanner.nextLine();
+                    if (season.trim().isEmpty()) {
+                        System.out.println("Season cannot be empty");
+                        continue;
+                    }
 
-                    ClothingItem item = new Jacket(
-                            name,
-                            size,
-                            price,
-                            category,
-                            waterproof,
-                            season
-                    );
-                    items.add(item);
+                    items.add(new Jacket(name, size, price, category, waterproof, season));
                 }
 
                 else {
-                    System.out.println("Wrong item type");
+                    System.out.println("Wrong type");
                     continue;
                 }
 
                 System.out.println("Item added successfully");
             }
 
-            // ===== 2. View items =====
+            // ===== VIEW ITEMS =====
             else if (choice == 2) {
+                for (ClothingItem item : items) {
+                    System.out.println(item);
 
-                if (items.isEmpty()) {
-                    System.out.println("No items available");
-                } else {
-                    System.out.println("Clothing items:");
-                    for (ClothingItem item : items) {
-                        System.out.println(item);
-
-                        if (item instanceof Shirt) {
-                            System.out.println("Item type: Shirt");
-                        }
-                        else if (item instanceof Jacket) {
-                            System.out.println("Item type: Jacket");
-                        }
+                    if (item instanceof Shirt) {
+                        System.out.println("Type: Shirt");
+                    } else if (item instanceof Jacket) {
+                        System.out.println("Type: Jacket");
                     }
                 }
             }
 
-            // ===== 3. Add customer =====
+            // ===== ADD CUSTOMER =====
             else if (choice == 3) {
-
                 System.out.print("Enter name: ");
                 String name = scanner.nextLine();
+                if (name.trim().isEmpty()) continue;
 
                 System.out.print("Enter phone: ");
                 String phone = scanner.nextLine();
+                if (phone.trim().isEmpty()) continue;
 
                 System.out.print("Enter email: ");
                 String email = scanner.nextLine();
+                if (email.trim().isEmpty()) continue;
 
-                Customer customer = new Customer(name, phone, email);
-                customers.add(customer);
-
-                System.out.println("Customer added successfully");
+                customers.add(new Customer(name, phone, email));
+                System.out.println("Customer added");
             }
 
-            // ===== 4. View customers =====
+            // ===== VIEW CUSTOMERS =====
             else if (choice == 4) {
-
-                if (customers.isEmpty()) {
-                    System.out.println("No customers available");
-                } else {
-                    System.out.println("Customers:");
-                    for (Customer customer : customers) {
-                        System.out.println(customer);
-                    }
+                for (Customer c : customers) {
+                    System.out.println(c);
                 }
             }
 
-            // ===== 5. Add order =====
+            // ===== ADD ORDER =====
             else if (choice == 5) {
-
                 if (items.isEmpty()) {
-                    System.out.println("No items available. Add item first.");
-                } else {
-
-                    int orderId = orders.size() + 1;
-                    double totalPrice = items.get(0).getPrice();
-
-                    System.out.print("Enter order date: ");
-                    String orderDate = scanner.nextLine();
-
-                    Order order = new Order(
-                            orderId,
-                            totalPrice,
-                            orderDate,
-                            "Created"
-                    );
-                    orders.add(order);
-
-                    System.out.println("Order added successfully");
+                    System.out.println("Add item first");
+                    continue;
                 }
+
+                System.out.print("Enter order date: ");
+                String date = scanner.nextLine();
+                if (date.trim().isEmpty()) continue;
+
+                orders.add(new Order(orders.size() + 1, items.get(0).getPrice(), date, "Created"));
+                System.out.println("Order added");
             }
 
-            // ===== 6. View orders =====
+            // ===== VIEW ORDERS =====
             else if (choice == 6) {
-
-                if (orders.isEmpty()) {
-                    System.out.println("No orders available");
-                } else {
-                    System.out.println("Orders:");
-                    for (Order order : orders) {
-                        System.out.println(order);
-                    }
+                for (Order o : orders) {
+                    System.out.println(o);
                 }
             }
 
-            // ===== Exit =====
             else if (choice == 0) {
-                System.out.println("Program ended");
                 running = false;
-            }
-
-            else {
-                System.out.println("Wrong choice");
+                System.out.println("Program ended");
             }
         }
     }

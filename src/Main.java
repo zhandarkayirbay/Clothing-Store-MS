@@ -5,8 +5,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("=== WEEK 4 TEST ===");
-
         ArrayList<ClothingItem> items = new ArrayList<>();
         ArrayList<Customer> customers = new ArrayList<>();
         ArrayList<Order> orders = new ArrayList<>();
@@ -22,90 +20,56 @@ public class Main {
             System.out.println("3. Add customer");
             System.out.println("4. View customers");
             System.out.println("5. Add order");
-            System.out.println("6. View orders");
+            System.out.println("6. Pay order");
             System.out.println("0. Exit");
             System.out.print("Choose: ");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
 
-            // ===== ADD ITEM =====
+            // ADD ITEM
             if (choice == 1) {
 
                 System.out.println("1. Shirt");
                 System.out.println("2. Jacket");
-                System.out.print("Type: ");
                 int type = scanner.nextInt();
                 scanner.nextLine();
 
-                System.out.print("Enter name: ");
+                System.out.print("Name: ");
                 String name = scanner.nextLine();
-                if (name.trim().isEmpty()) {
-                    System.out.println("Name cannot be empty");
-                    continue;
-                }
 
-                System.out.print("Enter size: ");
+                System.out.print("Size: ");
                 String size = scanner.nextLine();
-                if (size.trim().isEmpty()) {
-                    System.out.println("Size cannot be empty");
-                    continue;
-                }
 
-                System.out.print("Enter price: ");
+                System.out.print("Price: ");
                 double price = scanner.nextDouble();
                 scanner.nextLine();
-                if (price <= 0) {
-                    System.out.println("Price must be greater than 0");
-                    continue;
-                }
 
-                System.out.print("Enter category: ");
+                System.out.print("Category: ");
                 String category = scanner.nextLine();
-                if (category.trim().isEmpty()) {
-                    System.out.println("Category cannot be empty");
-                    continue;
-                }
 
                 if (type == 1) {
                     System.out.print("Long sleeve (true/false): ");
                     boolean longSleeve = scanner.nextBoolean();
                     scanner.nextLine();
 
-                    System.out.print("Enter material: ");
+                    System.out.print("Material: ");
                     String material = scanner.nextLine();
-                    if (material.trim().isEmpty()) {
-                        System.out.println("Material cannot be empty");
-                        continue;
-                    }
 
                     items.add(new Shirt(name, size, price, category, longSleeve, material));
-                }
-
-                else if (type == 2) {
+                } else {
                     System.out.print("Waterproof (true/false): ");
                     boolean waterproof = scanner.nextBoolean();
                     scanner.nextLine();
 
-                    System.out.print("Enter season: ");
+                    System.out.print("Season: ");
                     String season = scanner.nextLine();
-                    if (season.trim().isEmpty()) {
-                        System.out.println("Season cannot be empty");
-                        continue;
-                    }
 
                     items.add(new Jacket(name, size, price, category, waterproof, season));
                 }
-
-                else {
-                    System.out.println("Wrong type");
-                    continue;
-                }
-
-                System.out.println("Item added successfully");
             }
 
-            // ===== VIEW ITEMS =====
+            // VIEW ITEMS
             else if (choice == 2) {
                 for (ClothingItem item : items) {
                     System.out.println(item);
@@ -118,56 +82,45 @@ public class Main {
                 }
             }
 
-            // ===== ADD CUSTOMER =====
+            // ADD CUSTOMER
             else if (choice == 3) {
-                System.out.print("Enter name: ");
+                System.out.print("Name: ");
                 String name = scanner.nextLine();
-                if (name.trim().isEmpty()) continue;
-
-                System.out.print("Enter phone: ");
+                System.out.print("Phone: ");
                 String phone = scanner.nextLine();
-                if (phone.trim().isEmpty()) continue;
-
-                System.out.print("Enter email: ");
+                System.out.print("Email: ");
                 String email = scanner.nextLine();
-                if (email.trim().isEmpty()) continue;
 
                 customers.add(new Customer(name, phone, email));
-                System.out.println("Customer added");
             }
 
-            // ===== VIEW CUSTOMERS =====
+            // VIEW CUSTOMERS
             else if (choice == 4) {
                 for (Customer c : customers) {
                     System.out.println(c);
                 }
             }
 
-            // ===== ADD ORDER =====
+            // ADD ORDER
             else if (choice == 5) {
-                if (items.isEmpty()) {
-                    System.out.println("Add item first");
-                    continue;
+                if (!items.isEmpty()) {
+                    orders.add(new Order(orders.size() + 1,
+                            items.get(0).getPrice(),
+                            "2026-01-18"));
                 }
-
-                System.out.print("Enter order date: ");
-                String date = scanner.nextLine();
-                if (date.trim().isEmpty()) continue;
-
-                orders.add(new Order(orders.size() + 1, items.get(0).getPrice(), date, "Created"));
-                System.out.println("Order added");
             }
 
-            // ===== VIEW ORDERS =====
+            // PAY ORDER
             else if (choice == 6) {
-                for (Order o : orders) {
-                    System.out.println(o);
+                if (!orders.isEmpty()) {
+                    Payment payment = new Payment("Card", orders.get(0).toString().length());
+                    orders.get(0).setPayment(payment);
+                    System.out.println("Order paid");
                 }
             }
 
             else if (choice == 0) {
                 running = false;
-                System.out.println("Program ended");
             }
         }
     }

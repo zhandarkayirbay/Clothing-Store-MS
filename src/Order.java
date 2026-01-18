@@ -14,26 +14,6 @@ public class Order {
         this.payment = null;
     }
 
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public String getOrderDate() {
-        return orderDate;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public Payment getPayment() {
-        return payment;
-    }
-
     public void setPayment(Payment payment) {
         this.payment = payment;
         this.status = "Paid";

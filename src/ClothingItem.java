@@ -1,4 +1,4 @@
-public class ClothingItem {
+public abstract class ClothingItem {
 
     private String name;
     private String size;
@@ -12,6 +12,7 @@ public class ClothingItem {
         this.category = category;
     }
 
+    // ===== Getters =====
     public String getName() {
         return name;
     }
@@ -28,6 +29,7 @@ public class ClothingItem {
         return category;
     }
 
+    // ===== Setters =====
     public void setName(String name) {
         if (!name.trim().isEmpty()) {
             this.name = name;
@@ -52,13 +54,8 @@ public class ClothingItem {
         }
     }
 
-    public void applyDiscount(double percent) {
-        price = price - (price * percent / 100);
-    }
-
-    public boolean isExpensive() {
-        return price > 15000;
-    }
+    // ===== ABSTRACT METHOD (NEW) =====
+    public abstract String getItemType();
 
     @Override
     public String toString() {

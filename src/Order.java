@@ -4,15 +4,16 @@ public class Order {
     private double totalPrice;
     private String orderDate;
     private String status;
+    private Payment payment;
 
-    public Order(int orderId, double totalPrice, String orderDate, String status) {
-        setOrderId(orderId);
-        setTotalPrice(totalPrice);
-        setOrderDate(orderDate);
-        setStatus(status);
+    public Order(int orderId, double totalPrice, String orderDate) {
+        this.orderId = orderId;
+        this.totalPrice = totalPrice;
+        this.orderDate = orderDate;
+        this.status = "Created";
+        this.payment = null;
     }
 
-    // ===== Getters =====
     public int getOrderId() {
         return orderId;
     }
@@ -29,52 +30,25 @@ public class Order {
         return status;
     }
 
-    // ===== Setters with validation =====
-    public void setOrderId(int orderId) {
-        if (orderId <= 0) {
-            return;
-        }
-        this.orderId = orderId;
+    public Payment getPayment() {
+        return payment;
     }
 
-    public void setTotalPrice(double totalPrice) {
-        if (totalPrice <= 0) {
-            return;
-        }
-        this.totalPrice = totalPrice;
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+        this.status = "Paid";
     }
 
-    public void setOrderDate(String orderDate) {
-        if (orderDate == null || orderDate.trim().isEmpty()) {
-            return;
-        }
-        this.orderDate = orderDate.trim();
+    public boolean isPaid() {
+        return payment != null && payment.isPaid();
     }
 
-    public void setStatus(String status) {
-        if (status == null || status.trim().isEmpty()) {
-            return;
-        }
-        this.status = status.trim();
-    }
-
-    // ===== Additional methods =====
-    public void applyBonusDiscount(double bonus) {
-        if (bonus > 0 && bonus < totalPrice) {
-            totalPrice -= bonus;
-        }
-    }
-
-    public boolean isCompleted() {
-        return "Completed".equalsIgnoreCase(status);
-    }
-
-    // ===== toString =====
     @Override
     public String toString() {
         return "Order ID: " + orderId +
                 ", Total price: " + totalPrice +
                 ", Date: " + orderDate +
-                ", Status: " + status;
+                ", Status: " + status +
+                ", Payment: " + (payment == null ? "No payment" : payment);
     }
 }

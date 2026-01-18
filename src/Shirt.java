@@ -11,6 +11,11 @@ public class Shirt extends ClothingItem {
     }
 
     @Override
+    public String getItemType() {
+        return "Shirt";
+    }
+
+    @Override
     public String toString() {
         return super.toString() +
                 ", Long sleeve: " + longSleeve +

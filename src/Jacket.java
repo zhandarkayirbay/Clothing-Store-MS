@@ -11,6 +11,11 @@ public class Jacket extends ClothingItem {
     }
 
     @Override
+    public String getItemType() {
+        return "Jacket";
+    }
+
+    @Override
     public String toString() {
         return super.toString() +
                 ", Waterproof: " + waterproof +

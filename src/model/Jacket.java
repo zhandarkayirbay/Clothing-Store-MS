@@ -1,3 +1,5 @@
+package model;
+
 public class Jacket extends ClothingItem {
 
     private boolean waterproof;
@@ -11,7 +13,7 @@ public class Jacket extends ClothingItem {
     }
 
     @Override
-    public String getItemType() {
+    public String getType() {
         return "Jacket";
     }
 

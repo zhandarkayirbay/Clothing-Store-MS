@@ -1,4 +1,6 @@
-public class Payment {
+package model;
+
+public class Payment implements Payable {
 
     private String method;
     private double amount;
@@ -7,15 +9,12 @@ public class Payment {
     public Payment(String method, double amount) {
         this.method = method;
         this.amount = amount;
+        this.paid = false;
+    }
+
+    @Override
+    public void pay() {
         this.paid = true;
-    }
-
-    public String getMethod() {
-        return method;
-    }
-
-    public double getAmount() {
-        return amount;
     }
 
     public boolean isPaid() {

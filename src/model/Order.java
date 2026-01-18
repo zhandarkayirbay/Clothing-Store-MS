@@ -1,3 +1,5 @@
+package model;
+
 public class Order {
 
     private int orderId;
@@ -25,10 +27,10 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order ID: " + orderId +
+        return "model.Order ID: " + orderId +
                 ", Total price: " + totalPrice +
                 ", Date: " + orderDate +
                 ", Status: " + status +
-                ", Payment: " + (payment == null ? "No payment" : payment);
+                ", model.Payment: " + (payment == null ? "No payment" : payment);
     }
 }

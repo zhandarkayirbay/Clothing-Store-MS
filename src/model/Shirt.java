@@ -1,3 +1,5 @@
+package model;
+
 public class Shirt extends ClothingItem {
 
     private boolean longSleeve;
@@ -11,7 +13,7 @@ public class Shirt extends ClothingItem {
     }
 
     @Override
-    public String getItemType() {
+    public String getType() {
         return "Shirt";
     }
 

@@ -14,7 +14,7 @@ public class Customer {
         this.points = 0;
     }
 
-    // ===== Getters =====
+    // ===== GETTERS =====
     public String getName() {
         return name;
     }
@@ -31,50 +31,51 @@ public class Customer {
         return email;
     }
 
-    // ===== Setters with validation =====
+    // ===== SETTERS WITH EXCEPTIONS (REQUIRED) =====
     public void setName(String name) {
         if (name == null || name.trim().isEmpty()) {
-            return;
+            throw new IllegalArgumentException("Customer name cannot be empty");
         }
         this.name = name.trim();
     }
 
     public void setPhone(String phone) {
         if (phone == null || phone.trim().isEmpty()) {
-            return;
+            throw new IllegalArgumentException("Phone number cannot be empty");
         }
         this.phone = phone.trim();
     }
 
-    public void setPoints(int points) {
-        if (points < 0) {
-            return;
-        }
-        this.points = points;
-    }
-
     public void setEmail(String email) {
         if (email == null || email.trim().isEmpty()) {
-            return;
+            throw new IllegalArgumentException("Email cannot be empty");
         }
         this.email = email.trim();
     }
 
-    // ===== Additional methods =====
-    public void addPoints(int amount) {
-        if (amount > 0) {
-            points += amount;
+    public void setPoints(int points) {
+        if (points < 0) {
+            throw new IllegalArgumentException("Points cannot be negative");
         }
+        this.points = points;
+    }
+
+    // ===== BUSINESS METHODS =====
+    public void addPoints(int amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Points to add must be positive");
+        }
+        this.points += amount;
     }
 
     public boolean hasEnoughPoints(int amount) {
         return points >= amount;
     }
 
-    // ===== toString =====
+    // ===== TO STRING =====
     @Override
     public String toString() {
-        return "model.Customer name: " + name +
+        return "Customer name: " + name +
                 ", Phone: " + phone +
                 ", Email: " + email +
                 ", Points: " + points;

@@ -2,9 +2,18 @@ package model;
 
 public class Shirt extends ClothingItem {
 
+    // =================================================
+    // ================= FIELDS ========================
+    // =================================================
+
     private boolean longSleeve;
     private String material;
 
+    // =================================================
+    // ================= CONSTRUCTORS ==================
+    // =================================================
+
+    // OLD CONSTRUCTOR (Week 7 – unchanged, safe)
     public Shirt(String name, String size, double price,
                  boolean longSleeve, String material) {
         super(name, size, price);
@@ -12,13 +21,26 @@ public class Shirt extends ClothingItem {
         setMaterial(material);
     }
 
-    // IMPLEMENT ABSTRACT METHOD
+    // NEW CONSTRUCTOR (Week 8 – database support)
+    public Shirt(String name, String size, double price,
+                 boolean longSleeve, String material, int quantity) {
+        super(name, size, price, quantity);
+        setLongSleeve(longSleeve);
+        setMaterial(material);
+    }
+
+    // =================================================
+    // ================= ABSTRACT ======================
+    // =================================================
+
     @Override
     public String getType() {
         return "Shirt";
     }
 
-    // ===== SETTERS WITH EXCEPTIONS =====
+    // =================================================
+    // ================= SETTERS =======================
+    // =================================================
 
     public void setLongSleeve(boolean longSleeve) {
         this.longSleeve = longSleeve;
@@ -31,7 +53,9 @@ public class Shirt extends ClothingItem {
         this.material = material;
     }
 
-    // ===== GETTERS =====
+    // =================================================
+    // ================= GETTERS =======================
+    // =================================================
 
     public boolean isLongSleeve() {
         return longSleeve;
@@ -41,7 +65,10 @@ public class Shirt extends ClothingItem {
         return material;
     }
 
-    // ===== TO STRING =====
+    // =================================================
+    // ================= COMMON ========================
+    // =================================================
+
     @Override
     public String toString() {
         return super.toString() +

@@ -2,9 +2,18 @@ package model;
 
 public class Jacket extends ClothingItem {
 
+    // =================================================
+    // ================= FIELDS ========================
+    // =================================================
+
     private boolean waterproof;
     private String season;
 
+    // =================================================
+    // ================= CONSTRUCTORS ==================
+    // =================================================
+
+    // OLD CONSTRUCTOR (Week 7 – unchanged, safe)
     public Jacket(String name, String size, double price,
                   boolean waterproof, String season) {
         super(name, size, price);
@@ -12,13 +21,26 @@ public class Jacket extends ClothingItem {
         setSeason(season);
     }
 
-    // IMPLEMENT ABSTRACT METHOD
+    // OPTIONAL NEW CONSTRUCTOR (Week 8 – database ready)
+    public Jacket(String name, String size, double price,
+                  boolean waterproof, String season, int quantity) {
+        super(name, size, price, quantity);
+        setWaterproof(waterproof);
+        setSeason(season);
+    }
+
+    // =================================================
+    // ================= ABSTRACT ======================
+    // =================================================
+
     @Override
     public String getType() {
         return "Jacket";
     }
 
-    // ===== SETTERS WITH EXCEPTIONS =====
+    // =================================================
+    // ================= SETTERS =======================
+    // =================================================
 
     public void setWaterproof(boolean waterproof) {
         this.waterproof = waterproof;
@@ -31,7 +53,9 @@ public class Jacket extends ClothingItem {
         this.season = season;
     }
 
-    // ===== GETTERS =====
+    // =================================================
+    // ================= GETTERS =======================
+    // =================================================
 
     public boolean isWaterproof() {
         return waterproof;
@@ -41,7 +65,10 @@ public class Jacket extends ClothingItem {
         return season;
     }
 
-    // ===== TO STRING =====
+    // =================================================
+    // ================= COMMON ========================
+    // =================================================
+
     @Override
     public String toString() {
         return super.toString() +

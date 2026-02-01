@@ -1,5 +1,6 @@
 package menu;
 
+import database.ProductDAO;
 import exception.InvalidInputException;
 import model.ClothingItem;
 import model.Jacket;
@@ -10,20 +11,24 @@ import java.util.Scanner;
 
 public class MenuManager implements Menu {
 
+    // =================================================
+    // ================= WEEK 7 ========================
+    // RAM + OOP + POLYMORPHISM
+    // =================================================
+
     private ArrayList<ClothingItem> items;
-    private Scanner scanner;
+
+    // =================================================
+    // ================= COMMON ========================
+    // =================================================
+
+    private final Scanner scanner;
+    private final ProductDAO productDAO;
 
     public MenuManager() {
         this.items = new ArrayList<>();
         this.scanner = new Scanner(System.in);
-
-        // Test data
-        try {
-            items.add(new Shirt("Classic Shirt", "M", 12000, true, "Cotton"));
-            items.add(new Jacket("Winter Jacket", "L", 35000, true, "Winter"));
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error initializing test data: " + e.getMessage());
-        }
+        this.productDAO = new ProductDAO();
     }
 
     @Override
@@ -31,12 +36,24 @@ public class MenuManager implements Menu {
         System.out.println("\n========================================");
         System.out.println("      CLOTHING STORE MANAGEMENT");
         System.out.println("========================================");
-        System.out.println("1. Add Shirt");
-        System.out.println("2. Add Jacket");
-        System.out.println("3. View All Items");
-        System.out.println("4. View Shirts Only");
-        System.out.println("5. View Jackets Only");
+
+        // -------- WEEK 7 --------
+        System.out.println("1. Add Shirt (Week 7)");
+        System.out.println("2. Add Jacket (Week 7)");
+        System.out.println("3. View All Products (DB)");
+        System.out.println("4. View Shirts Only (RAM)");
+        System.out.println("5. View Jackets Only (RAM)");
         System.out.println("6. Demonstrate Polymorphism");
+
+        // -------- WEEK 8 --------
+        System.out.println("----------- WEEK 8 -----------");
+        System.out.println("7. Update Product Price");
+        System.out.println("8. Update Product Quantity");
+        System.out.println("9. Delete Product by ID");
+        System.out.println("10. Search Product by Name");
+        System.out.println("11. Search by Price Range");
+        System.out.println("12. Search by Min Price");
+
         System.out.println("0. Exit");
         System.out.println("========================================");
     }
@@ -53,34 +70,46 @@ public class MenuManager implements Menu {
                 int choice = Integer.parseInt(scanner.nextLine());
 
                 switch (choice) {
+
+                    // ===== WEEK 7 =====
                     case 1 -> addShirt();
                     case 2 -> addJacket();
-                    case 3 -> viewAllItems();
+                    case 3 -> productDAO.getAllProducts();
                     case 4 -> viewShirtsOnly();
                     case 5 -> viewJacketsOnly();
                     case 6 -> demonstratePolymorphism();
+
+                    // ===== WEEK 8 =====
+                    case 7 -> updatePrice();
+                    case 8 -> updateQuantity();
+                    case 9 -> deleteProduct();
+                    case 10 -> searchByName();
+                    case 11 -> searchByPriceRange();
+                    case 12 -> searchByMinPrice();
+
                     case 0 -> {
                         running = false;
-                        System.out.println("\nThank you for using Clothing Store System!");
                         System.out.println("Goodbye!");
                     }
+
                     default -> throw new InvalidInputException("Invalid menu choice!");
+
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("❌ Error: Please enter a number!");
+                System.out.println("❌ Please enter a number!");
             } catch (InvalidInputException | IllegalArgumentException e) {
-                System.out.println("❌ Error: " + e.getMessage());
+                System.out.println("❌ " + e.getMessage());
             }
         }
     }
 
-    // ===== MENU ACTION METHODS =====
+    // =================================================
+    // ================= WEEK 7 ========================
+    // =================================================
 
     private void addShirt() {
         try {
-            System.out.println("\n--- Add Shirt ---");
-
             System.out.print("Name: ");
             String name = scanner.nextLine();
 
@@ -96,20 +125,26 @@ public class MenuManager implements Menu {
             System.out.print("Material: ");
             String material = scanner.nextLine();
 
-            Shirt shirt = new Shirt(name, size, price, longSleeve, material);
+            System.out.print("Quantity: ");
+            int quantity = Integer.parseInt(scanner.nextLine());
+
+            Shirt shirt = new Shirt(name, size, price, longSleeve, material, quantity);
+
+            // RAM (Week 7)
             items.add(shirt);
 
-            System.out.println("✅ Shirt added successfully!");
+            // DATABASE
+            productDAO.insertProduct(name, size, price, quantity);
+
+            System.out.println("✅ Shirt added (Week 7 + DB)");
 
         } catch (NumberFormatException e) {
-            System.out.println("❌ Error: Price must be a number!");
+            System.out.println("❌ Invalid input!");
         }
     }
 
     private void addJacket() {
         try {
-            System.out.println("\n--- Add Jacket ---");
-
             System.out.print("Name: ");
             String name = scanner.nextLine();
 
@@ -128,75 +163,92 @@ public class MenuManager implements Menu {
             Jacket jacket = new Jacket(name, size, price, waterproof, season);
             items.add(jacket);
 
-            System.out.println("✅ Jacket added successfully!");
+            System.out.println("✅ Jacket added (RAM only)");
 
         } catch (NumberFormatException e) {
-            System.out.println("❌ Error: Price must be a number!");
-        }
-    }
-
-    private void viewAllItems() {
-        System.out.println("\n========================================");
-        System.out.println("            ALL ITEMS");
-        System.out.println("========================================");
-
-        if (items.isEmpty()) {
-            System.out.println("No items found.");
-            return;
-        }
-
-        for (int i = 0; i < items.size(); i++) {
-            System.out.println((i + 1) + ". " + items.get(i));
+            System.out.println("❌ Invalid input!");
         }
     }
 
     private void viewShirtsOnly() {
-        System.out.println("\n--- SHIRTS ONLY ---");
-
-        boolean found = false;
         for (ClothingItem item : items) {
             if (item instanceof Shirt) {
                 System.out.println(item);
-                found = true;
             }
-        }
-
-        if (!found) {
-            System.out.println("No shirts found.");
         }
     }
 
     private void viewJacketsOnly() {
-        System.out.println("\n--- JACKETS ONLY ---");
-
-        boolean found = false;
         for (ClothingItem item : items) {
             if (item instanceof Jacket) {
                 System.out.println(item);
-                found = true;
             }
-        }
-
-        if (!found) {
-            System.out.println("No jackets found.");
         }
     }
 
     private void demonstratePolymorphism() {
-        System.out.println("\n========================================");
-        System.out.println("     POLYMORPHISM DEMONSTRATION");
-        System.out.println("========================================");
-
-        if (items.isEmpty()) {
-            System.out.println("No items to demonstrate.");
-            return;
-        }
-
         for (ClothingItem item : items) {
             System.out.println("Item type: " + item.getType());
         }
+    }
 
-        System.out.println("\n✅ Same method, different behavior!");
-        System.out.println("This is POLYMORPHISM.");
+    // =================================================
+    // ================= WEEK 8 ========================
+    // =================================================
+
+    private void updatePrice() {
+        System.out.print("Product ID: ");
+        int id = Integer.parseInt(scanner.nextLine());
+
+        System.out.print("New price: ");
+        double price = Double.parseDouble(scanner.nextLine());
+
+        productDAO.updatePrice(id, price);
+    }
+
+    private void updateQuantity() {
+        System.out.print("Product ID: ");
+        int id = Integer.parseInt(scanner.nextLine());
+
+        System.out.print("New quantity: ");
+        int qty = Integer.parseInt(scanner.nextLine());
+
+        productDAO.updateQuantity(id, qty);
+    }
+
+    private void deleteProduct() {
+        System.out.print("Product ID to delete: ");
+        int id = Integer.parseInt(scanner.nextLine());
+
+        System.out.print("Are you sure? (yes/no): ");
+        String confirm = scanner.nextLine();
+
+        if (confirm.equalsIgnoreCase("yes")) {
+            productDAO.deleteProduct(id);
+        } else {
+            System.out.println("❌ Deletion cancelled");
+        }
+    }
+
+    private void searchByName() {
+        System.out.print("Enter keyword: ");
+        String keyword = scanner.nextLine();
+        productDAO.searchByName(keyword);
+    }
+
+    private void searchByPriceRange() {
+        System.out.print("Min price: ");
+        double min = Double.parseDouble(scanner.nextLine());
+
+        System.out.print("Max price: ");
+        double max = Double.parseDouble(scanner.nextLine());
+
+        productDAO.searchByPriceRange(min, max);
+    }
+
+    private void searchByMinPrice() {
+        System.out.print("Min price: ");
+        double min = Double.parseDouble(scanner.nextLine());
+        productDAO.searchByMinPrice(min);
     }
 }

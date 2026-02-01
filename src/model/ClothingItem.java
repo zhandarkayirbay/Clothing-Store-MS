@@ -2,20 +2,44 @@ package model;
 
 public abstract class ClothingItem {
 
+    // =================================================
+    // ================= FIELDS ========================
+    // =================================================
+
     protected String name;
     protected String size;
     protected double price;
+    protected int quantity;   // Week 8 (DB support)
 
+    // =================================================
+    // ================= CONSTRUCTORS ==================
+    // =================================================
+
+    // OLD CONSTRUCTOR (Week 7 – unchanged, safe)
     public ClothingItem(String name, String size, double price) {
         setName(name);
         setSize(size);
         setPrice(price);
+        this.quantity = 0; // default value, old code not broken
     }
 
-    // ABSTRACT METHOD (REQUIRED)
+    // NEW CONSTRUCTOR (Week 8 – database)
+    public ClothingItem(String name, String size, double price, int quantity) {
+        setName(name);
+        setSize(size);
+        setPrice(price);
+        setQuantity(quantity);
+    }
+
+    // =================================================
+    // ================= ABSTRACT ======================
+    // =================================================
+
     public abstract String getType();
 
-    // ===== SETTERS WITH EXCEPTIONS =====
+    // =================================================
+    // ================= SETTERS =======================
+    // =================================================
 
     public void setName(String name) {
         if (name == null || name.trim().isEmpty()) {
@@ -38,7 +62,17 @@ public abstract class ClothingItem {
         this.price = price;
     }
 
-    // ===== GETTERS =====
+    // Week 8
+    public void setQuantity(int quantity) {
+        if (quantity < 0) {
+            throw new IllegalArgumentException("Quantity cannot be negative");
+        }
+        this.quantity = quantity;
+    }
+
+    // =================================================
+    // ================= GETTERS =======================
+    // =================================================
 
     public String getName() {
         return name;
@@ -52,12 +86,21 @@ public abstract class ClothingItem {
         return price;
     }
 
-    // ===== COMMON METHOD =====
+    // Week 8
+    public int getQuantity() {
+        return quantity;
+    }
+
+    // =================================================
+    // ================= COMMON ========================
+    // =================================================
+
     @Override
     public String toString() {
         return "Name: " + name +
                 ", Size: " + size +
                 ", Price: " + price +
+                ", Quantity: " + quantity +
                 ", Type: " + getType();
     }
 }
